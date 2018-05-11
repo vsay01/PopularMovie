@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="movie"
+            type="com.udacity.popularmovie.data.database.MovieResult" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/background_view"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@color/movieDetailTitleBg"
+                android:elevation="8dp" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_movie_poster"
+                android:layout_width="150dp"
+                android:layout_height="200dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="24dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                app:imageURL="@{movie.posterPath}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/background_view"
+                app:srcCompat="@mipmap/ic_launcher"
+                tools:background="@mipmap/ic_launcher" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_title"
+                style="@style/TextHeader"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="40dp"
+                android:elevation="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{movie.title}"
+                app:layout_constraintBottom_toBottomOf="@+id/background_view"
+                app:layout_constraintEnd_toEndOf="@+id/background_view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Title" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_release_date"
+                style="@style/TextBody20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toEndOf="@+id/iv_movie_poster"
+                app:layout_constraintTop_toBottomOf="@+id/background_view"
+                tools:text="Release Date" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_vote_average"
+                style="@style/TextBody20spBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:text="@{@string/movie_review(String.valueOf(safeUnbox(movie.voteAverage)))}"
+                app:layout_constraintStart_toEndOf="@+id/iv_movie_poster"
+                app:layout_constraintTop_toBottomOf="@+id/tv_release_date"
+                tools:text="Vote Average" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_plot_synopsis"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:text="@{movie.overview}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_movie_poster"
+                tools:text="Plot Synopsis" />
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+</layout>

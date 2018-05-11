@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">PopularMovie</string>
+    <string name="title_movie_list">Pop Movies</string>
+    <string name="title_movie_detail">Movie Detail</string>
+    <string name="most_popular">most popular</string>
+    <string name="highest_rated">highest rated</string>
+    <string name="no_network_message">No Internet found. Check your connection or try again.</string>
+    <string name="movie_review">%1$s/10</string>
+    <string name="retry">Retry</string>
+    <string name="no_api_key_error_message">Please provide api key for themoviedb in config file</string>
+</resources>
