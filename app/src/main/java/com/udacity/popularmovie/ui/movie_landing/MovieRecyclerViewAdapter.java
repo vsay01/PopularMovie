@@ -1,13 +1,8 @@
 package com.udacity.popularmovie.ui.movie_landing;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.graphics.Palette;
@@ -22,34 +17,29 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.udacity.popularmovie.base.GlideApp;
 import com.udacity.popularmovie.R;
+import com.udacity.popularmovie.base.GlideApp;
 import com.udacity.popularmovie.data.database.MovieResult;
 import com.udacity.popularmovie.data.network.Config;
-import com.udacity.popularmovie.ui.movie_detail.MovieDetailActivity;
-import com.udacity.popularmovie.ui.movie_detail.MovieDetailFragment;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.udacity.popularmovie.ui.movie_detail.MovieDetailFragment.ARG_ITEM_COLOR_PALETTE;
-import static com.udacity.popularmovie.ui.movie_detail.MovieDetailFragment.ARG_ITEM_TRANSITION_ID;
-
 public class MovieRecyclerViewAdapter
         extends RecyclerView.Adapter<MovieRecyclerViewAdapter.ViewHolder> {
 
     private final MovieListActivity mParentActivity;
     private final List<MovieResult> mMovieList;
-    private final boolean mTwoPane;
+    private final MovieClickListener mMovieClickListener;
 
     MovieRecyclerViewAdapter(MovieListActivity parent,
                              List<MovieResult> items,
-                             boolean twoPane) {
+                             MovieClickListener movieClickListener) {
         mMovieList = items;
         mParentActivity = parent;
-        mTwoPane = twoPane;
+        mMovieClickListener = movieClickListener;
     }
 
     @NonNull
@@ -90,34 +80,7 @@ public class MovieRecyclerViewAdapter
 
         ViewCompat.setTransitionName(holder.mImageView, mMovieList.get(position).title);
 
-        holder.mImageView.setOnClickListener(view -> {
-            MovieResult item = mMovieList.get(position);
-            if (mTwoPane) {
-                Bundle arguments = new Bundle();
-                arguments.putParcelable(MovieDetailFragment.ARG_ITEM_ID, item);
-                arguments.putString(ARG_ITEM_TRANSITION_ID, ViewCompat.getTransitionName(holder.mImageView));
-                arguments.putInt(ARG_ITEM_COLOR_PALETTE, holder.mColorPalette);
-
-                MovieDetailFragment fragment = new MovieDetailFragment();
-                fragment.setArguments(arguments);
-                mParentActivity.getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.movie_detail_container, fragment)
-                        .commit();
-            } else {
-                Context context = view.getContext();
-                Intent intent = new Intent(context, MovieDetailActivity.class);
-                intent.putExtra(MovieDetailFragment.ARG_ITEM_ID, item);
-                intent.putExtra(ARG_ITEM_TRANSITION_ID, ViewCompat.getTransitionName(holder.mImageView));
-                intent.putExtra(ARG_ITEM_COLOR_PALETTE, holder.mColorPalette);
-
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        (Activity) context,
-                        holder.mImageView,
-                        ViewCompat.getTransitionName(holder.mImageView));
-
-                context.startActivity(intent, options.toBundle());
-            }
-        });
+        holder.mImageView.setOnClickListener(view -> mMovieClickListener.onMovieClicked(mMovieList.get(position), holder.mColorPalette, holder.mImageView));
     }
 
     @Override

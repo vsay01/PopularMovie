@@ -9,6 +9,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        // A valid key will need to be entered
+        buildConfigField("String", "API_KEY", API_KEY)
     }
     buildTypes {
         release {

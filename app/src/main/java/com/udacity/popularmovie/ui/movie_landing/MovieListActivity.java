@@ -1,12 +1,16 @@
 package com.udacity.popularmovie.ui.movie_landing;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.Group;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,12 +24,16 @@ import com.udacity.popularmovie.R;
 import com.udacity.popularmovie.data.database.MovieResult;
 import com.udacity.popularmovie.data.network.Config;
 import com.udacity.popularmovie.ui.movie_detail.MovieDetailActivity;
+import com.udacity.popularmovie.ui.movie_detail.MovieDetailFragment;
 import com.udacity.popularmovie.util.NetworkUtils;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.udacity.popularmovie.ui.movie_detail.MovieDetailFragment.ARG_ITEM_COLOR_PALETTE;
+import static com.udacity.popularmovie.ui.movie_detail.MovieDetailFragment.ARG_ITEM_TRANSITION_ID;
 
 /**
  * An activity representing a list of Movies. This activity
@@ -125,7 +133,35 @@ public class MovieListActivity extends AppCompatActivity {
     private void setupRecyclerView(@NonNull RecyclerView recyclerView, @NonNull List<MovieResult> movieResults) {
         int numberOfColumns = 2;
         recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
-        recyclerView.setAdapter(new MovieRecyclerViewAdapter(this, movieResults, mTwoPane));
+        recyclerView.setAdapter(new MovieRecyclerViewAdapter(this, movieResults, new MovieClickListener() {
+            @Override
+            public void onMovieClicked(MovieResult movieResult, int colorPalette, AppCompatImageView moviePoster) {
+                if (mTwoPane) {
+                    Bundle arguments = new Bundle();
+                    arguments.putParcelable(MovieDetailFragment.ARG_ITEM_ID, movieResult);
+                    arguments.putString(ARG_ITEM_TRANSITION_ID, ViewCompat.getTransitionName(moviePoster));
+                    arguments.putInt(ARG_ITEM_COLOR_PALETTE, colorPalette);
+
+                    MovieDetailFragment fragment = new MovieDetailFragment();
+                    fragment.setArguments(arguments);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.movie_detail_container, fragment)
+                            .commit();
+                } else {
+                    Intent intent = new Intent(MovieListActivity.this, MovieDetailActivity.class);
+                    intent.putExtra(MovieDetailFragment.ARG_ITEM_ID, movieResult);
+                    intent.putExtra(ARG_ITEM_TRANSITION_ID, ViewCompat.getTransitionName(moviePoster));
+                    intent.putExtra(ARG_ITEM_COLOR_PALETTE, colorPalette);
+
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            MovieListActivity.this,
+                            moviePoster,
+                            ViewCompat.getTransitionName(moviePoster));
+
+                    startActivity(intent, options.toBundle());
+                }
+            }
+        }));
     }
 
     @Override
