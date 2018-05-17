@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="movieTrailer"
+            type="com.udacity.popularmovie.data.database.MovieTrailerResult" />
+
+        <variable
+            name="movieTrailerHandler"
+            type="com.udacity.popularmovie.ui.movie_detail.MovieTrailerHandler" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/id_root_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/id_image"
+            android:layout_width="135dp"
+            android:layout_height="140dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:adjustViewBounds="true"
+            android:onClick="@{(id_image) -> movieTrailerHandler.onMovieTrailerClicked(movieTrailer)}"
+            android:scaleType="fitXY"
+            app:imageURLMovieTrailer="@{movieTrailer.key}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="W,1.5:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@mipmap/ic_launcher" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/id_tv_author_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@{movieTrailer.name}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/id_image"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="trailer title" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/id_tv_type"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="@{movieTrailer.type}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/id_image"
+            app:layout_constraintTop_toBottomOf="@+id/id_tv_author_name"
+            tools:text="trailer type" />
+
+        <ImageView
+            android:id="@+id/iv_play"
+            android:layout_width="58dp"
+            android:layout_height="59dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/id_image"
+            app:layout_constraintEnd_toEndOf="@+id/id_image"
+            app:layout_constraintStart_toStartOf="@+id/id_image"
+            app:layout_constraintTop_toTopOf="@+id/id_image"
+            app:srcCompat="@drawable/ic_play_button" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

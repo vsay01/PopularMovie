@@ -1,5 +1,6 @@
 package com.udacity.popularmovie.ui.movie_detail;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,15 +8,22 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.udacity.popularmovie.R;
 import com.udacity.popularmovie.data.database.MovieResult;
+import com.udacity.popularmovie.data.database.MovieReviewResult;
+import com.udacity.popularmovie.data.database.MovieTrailerResult;
 import com.udacity.popularmovie.databinding.MovieDetailBinding;
 import com.udacity.popularmovie.ui.movie_landing.MovieListActivity;
 import com.udacity.popularmovie.util.DateUtils;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,7 +49,9 @@ public class MovieDetailFragment extends Fragment {
     private MovieResult mItem;
     private String mTransitionName;
     private int mColorPalette;
-
+    private MovieTrailerRecyclerViewAdapter mAdapter;
+    private MovieReviewRecyclerViewAdapter mAdapterReview;
+    private MovieDetailViewModel mViewModel;
 
     @BindView(R.id.background_view)
     View mViewBackground;
@@ -51,6 +61,12 @@ public class MovieDetailFragment extends Fragment {
 
     @BindView(R.id.tv_release_date)
     AppCompatTextView mTvReleaseDate;
+
+    @BindView(R.id.rv_movie_trailer)
+    RecyclerView mRVMovieTrailer;
+
+    @BindView(R.id.rv_movie_review)
+    RecyclerView mRVMovieReview;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -87,6 +103,42 @@ public class MovieDetailFragment extends Fragment {
                 mViewBackground.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.movieDetailTitleBg));
             }
         }
+        mViewModel = ViewModelProviders.of(this).get(MovieDetailViewModel.class);
+        // Handle changes emitted by LiveData
+        mViewModel.getApiResponse().observe(this, apiResponse -> {
+            if (apiResponse != null) {
+                if (apiResponse.getError() != null) {
+                    // TODO: 5/16/18 showing error
+                } else {
+                    if (apiResponse.getMovieTrailerResponse() != null
+                            && apiResponse.getMovieTrailerResponse().movieTrailerResultList != null) {
+                        setupRecyclerViewMovieTrailer(mRVMovieTrailer, apiResponse.getMovieTrailerResponse().movieTrailerResultList);
+                    }
+                    if (apiResponse.getMovieReviewResponse() != null
+                            && apiResponse.getMovieReviewResponse().results != null) {
+                        setupRecyclerViewMovieReview(mRVMovieReview, apiResponse.getMovieReviewResponse().results);
+                    }
+                }
+            }
+        });
+        mViewModel.loadMovieTrailers(mItem.id);
+        mViewModel.loadMovieReviews(mItem.id);
         return view;
+    }
+
+    private void setupRecyclerViewMovieTrailer(@NonNull RecyclerView recyclerView, @NonNull List<MovieTrailerResult> movieTrailerResults) {
+        mAdapter = new MovieTrailerRecyclerViewAdapter(getActivity(), movieTrailerResults);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
+    }
+
+    private void setupRecyclerViewMovieReview(@NonNull RecyclerView recyclerView, @NonNull List<MovieReviewResult> movieReviewResults) {
+        mAdapterReview = new MovieReviewRecyclerViewAdapter(movieReviewResults);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapterReview);
     }
 }

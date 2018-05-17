@@ -12,7 +12,7 @@ public class MovieResult implements Parcelable {
     @Json(name = "vote_count")
     public Integer voteCount;
     @Json(name = "id")
-    public Integer id;
+    public Long id;
     @Json(name = "video")
     public Boolean video;
     @Json(name = "vote_average")
@@ -66,7 +66,7 @@ public class MovieResult implements Parcelable {
 
     protected MovieResult(Parcel in) {
         this.voteCount = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.id = (Long) in.readValue(Long.class.getClassLoader());
         this.video = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.voteAverage = (Double) in.readValue(Double.class.getClassLoader());
         this.title = in.readString();

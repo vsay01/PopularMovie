@@ -8,4 +8,6 @@
     <string name="movie_review">%1$s/10</string>
     <string name="retry">Retry</string>
     <string name="no_api_key_error_message">Please provide api key for themoviedb in config file</string>
+    <string name="videos">Videos</string>
+    <string name="review">Review</string>
 </resources>
