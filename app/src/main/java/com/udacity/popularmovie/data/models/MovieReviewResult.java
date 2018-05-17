@@ -1,4 +1,4 @@
-package com.udacity.popularmovie.data.database;
+package com.udacity.popularmovie.data.models;
 
 import com.squareup.moshi.Json;
 

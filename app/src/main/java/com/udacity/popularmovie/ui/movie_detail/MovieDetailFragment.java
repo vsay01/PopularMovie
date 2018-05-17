@@ -16,9 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.udacity.popularmovie.R;
-import com.udacity.popularmovie.data.database.MovieResult;
-import com.udacity.popularmovie.data.database.MovieReviewResult;
-import com.udacity.popularmovie.data.database.MovieTrailerResult;
+import com.udacity.popularmovie.data.models.MovieResult;
+import com.udacity.popularmovie.data.models.MovieReviewResult;
+import com.udacity.popularmovie.data.models.MovieTrailerResult;
 import com.udacity.popularmovie.databinding.MovieDetailBinding;
 import com.udacity.popularmovie.ui.movie_landing.MovieListActivity;
 import com.udacity.popularmovie.util.DateUtils;

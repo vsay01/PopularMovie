@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
-import com.udacity.popularmovie.data.database.MovieTrailerResult;
+import com.udacity.popularmovie.data.models.MovieTrailerResult;
 
 public class MovieTrailerHandler {
     public Context mContext;

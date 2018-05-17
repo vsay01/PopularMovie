@@ -4,9 +4,9 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 
-import com.udacity.popularmovie.data.database.MovieResponse;
-import com.udacity.popularmovie.data.database.MovieReviewResponse;
-import com.udacity.popularmovie.data.database.MovieTrailerResponse;
+import com.udacity.popularmovie.data.models.MovieResponse;
+import com.udacity.popularmovie.data.models.MovieReviewResponse;
+import com.udacity.popularmovie.data.models.MovieTrailerResponse;
 import com.udacity.popularmovie.data.network.ApiResponse;
 import com.udacity.popularmovie.data.network.Config;
 import com.udacity.popularmovie.data.network.MovieApiService;

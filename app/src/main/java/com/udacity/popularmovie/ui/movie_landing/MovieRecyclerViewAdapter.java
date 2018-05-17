@@ -19,7 +19,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.udacity.popularmovie.R;
 import com.udacity.popularmovie.base.GlideApp;
-import com.udacity.popularmovie.data.database.MovieResult;
+import com.udacity.popularmovie.data.models.MovieResult;
 import com.udacity.popularmovie.data.network.Config;
 
 import java.util.List;

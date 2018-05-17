@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.udacity.popularmovie.R;
-import com.udacity.popularmovie.data.database.MovieTrailerResult;
+import com.udacity.popularmovie.data.models.MovieTrailerResult;
 import com.udacity.popularmovie.databinding.MovieTrailerItemBinding;
 
 import java.util.List;

@@ -7,7 +7,7 @@
 
         <variable
             name="movieResult"
-            type="com.udacity.popularmovie.data.database.MovieReviewResult" />
+            type="com.udacity.popularmovie.data.models.MovieReviewResult" />
     </data>
 
     <android.support.constraint.ConstraintLayout

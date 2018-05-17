@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.udacity.popularmovie.R;
-import com.udacity.popularmovie.data.database.MovieReviewResult;
+import com.udacity.popularmovie.data.models.MovieReviewResult;
 import com.udacity.popularmovie.databinding.MovieReviewItemBinding;
 
 import java.util.List;

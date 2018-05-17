@@ -7,7 +7,7 @@
 
         <variable
             name="movieTrailer"
-            type="com.udacity.popularmovie.data.database.MovieTrailerResult" />
+            type="com.udacity.popularmovie.data.models.MovieTrailerResult" />
 
         <variable
             name="movieTrailerHandler"

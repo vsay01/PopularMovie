@@ -1,4 +1,4 @@
-package com.udacity.popularmovie.data.database;
+package com.udacity.popularmovie.data.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

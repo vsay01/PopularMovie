@@ -1,8 +1,8 @@
 package com.udacity.popularmovie.data.network;
 
-import com.udacity.popularmovie.data.database.MovieResponse;
-import com.udacity.popularmovie.data.database.MovieReviewResponse;
-import com.udacity.popularmovie.data.database.MovieTrailerResponse;
+import com.udacity.popularmovie.data.models.MovieResponse;
+import com.udacity.popularmovie.data.models.MovieReviewResponse;
+import com.udacity.popularmovie.data.models.MovieTrailerResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

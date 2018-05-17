@@ -61,4 +61,6 @@ dependencies {
 
     //Paging
     implementation "android.arch.paging:runtime:1.0.0"
+
+    compile 'com.facebook.stetho:stetho:1.5.0'
 }

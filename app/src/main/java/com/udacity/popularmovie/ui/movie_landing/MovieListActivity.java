@@ -10,7 +10,6 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.udacity.popularmovie.R;
-import com.udacity.popularmovie.data.database.MovieResult;
+import com.udacity.popularmovie.data.models.MovieResult;
 import com.udacity.popularmovie.data.network.Config;
 import com.udacity.popularmovie.ui.movie_detail.MovieDetailActivity;
 import com.udacity.popularmovie.ui.movie_detail.MovieDetailFragment;

@@ -1,10 +1,12 @@
-package com.udacity.popularmovie.data.database;
+package com.udacity.popularmovie.data.models;
 
 import com.squareup.moshi.Json;
 
 import java.util.List;
 
-public class MovieResponse {
+public class MovieReviewResponse {
+    @Json(name = "id")
+    public long id;
     @Json(name = "page")
     public Integer page;
     @Json(name = "total_results")
@@ -12,5 +14,5 @@ public class MovieResponse {
     @Json(name = "total_pages")
     public Integer totalPages;
     @Json(name = "results")
-    public List<MovieResult> results = null;
+    public List<MovieReviewResult> results = null;
 }
