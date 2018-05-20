@@ -30,6 +30,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.udacity.popularmovie.ui.movie_landing.MovieListActivity" />
         </activity>
+
+        <provider
+            android:name="com.udacity.popularmovie.data.database.MovieContentProvider"
+            android:authorities="com.udacity.popularmovie.app"
+            android:exported="false" />
     </application>
 
 </manifest>
