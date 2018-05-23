@@ -12,8 +12,12 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.udacity.popularmovie.R;
 import com.udacity.popularmovie.data.models.MovieResult;
@@ -78,11 +82,33 @@ public class MovieDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setHasOptionsMenu(true);
         if (getArguments() != null && getArguments().containsKey(ARG_ITEM_ID)) {
             mItem = getArguments().getParcelable(ARG_ITEM_ID);
             mTransitionName = getArguments().getString(ARG_ITEM_TRANSITION_ID);
             mColorPalette = getArguments().getInt(ARG_ITEM_COLOR_PALETTE);
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_movie_detail, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.favourite:
+                if (mItem != null) {
+                    mViewModel.addMovieFavourite(mItem.id, mItem.title);
+                } else {
+                    Toast.makeText(getActivity(), "There's something wrong right now, please try again later", Toast.LENGTH_LONG).show();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

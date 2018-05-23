@@ -10,4 +10,5 @@
     <string name="no_api_key_error_message">Please provide api key for themoviedb in config file</string>
     <string name="videos">Videos</string>
     <string name="review">Review</string>
+    <string name="favourite">Favourite</string>
 </resources>

@@ -21,8 +21,8 @@ public class MovieDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         final String SQL_CREATE_MOVIE_TABLE = "CREATE TABLE " +
                 MovieContract.MovieEntry.TABLE_MOVIES + "("
-                + MovieContract.MovieEntry.MOVIE_ID
-                + MovieContract.MovieEntry.TABLE_MOVIES + " TEXT NOT NULL);";
+                + MovieContract.MovieEntry.COLUMN_MOVIE_ID + " LONG PRIMARY KEY, "
+                + MovieContract.MovieEntry.COLUMN_MOVIE_TITLE + " TEXT NOT NULL);";
 
         sqLiteDatabase.execSQL(SQL_CREATE_MOVIE_TABLE);
     }

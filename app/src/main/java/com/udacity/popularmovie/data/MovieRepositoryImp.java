@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.udacity.popularmovie.data.models.MovieResponse;
 import com.udacity.popularmovie.data.models.MovieReviewResponse;
 import com.udacity.popularmovie.data.models.MovieTrailerResponse;
@@ -11,6 +12,7 @@ import com.udacity.popularmovie.data.network.ApiResponse;
 import com.udacity.popularmovie.data.network.Config;
 import com.udacity.popularmovie.data.network.MovieApiService;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -21,8 +23,13 @@ public class MovieRepositoryImp implements IMovieRepository {
     private MovieApiService mApiService;
 
     public MovieRepositoryImp() {
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addNetworkInterceptor(new StethoInterceptor())
+                .build();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(MoshiConverterFactory.create())
+                .client(okHttpClient)
                 .baseUrl(Config.BASE_URL)
                 .build();
         mApiService = retrofit.create(MovieApiService.class);

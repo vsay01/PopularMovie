@@ -1,19 +1,21 @@
 package com.udacity.popularmovie.ui.movie_landing;
 
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
-import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 
 import com.udacity.popularmovie.data.MovieRepositoryImp;
 import com.udacity.popularmovie.data.network.ApiResponse;
 
-public class MovieListViewModel extends ViewModel {
+public class MovieListViewModel extends AndroidViewModel {
     private MediatorLiveData<ApiResponse> mApiResponse;
     private MovieRepositoryImp mMovieRepository;
 
     // No argument constructor
-    public MovieListViewModel() {
+    public MovieListViewModel(Application application) {
+        super(application);
         mApiResponse = new MediatorLiveData<>();
         mMovieRepository = new MovieRepositoryImp();
     }

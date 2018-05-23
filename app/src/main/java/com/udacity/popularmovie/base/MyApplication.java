@@ -2,6 +2,7 @@ package com.udacity.popularmovie.base;
 
 import android.app.Application;
 
+import com.facebook.stetho.Stetho;
 import com.squareup.leakcanary.LeakCanary;
 
 public class MyApplication extends Application {
@@ -15,5 +16,6 @@ public class MyApplication extends Application {
         }
         LeakCanary.install(this);
         // Normal app init code...
+        Stetho.initializeWithDefaults(this);
     }
 }

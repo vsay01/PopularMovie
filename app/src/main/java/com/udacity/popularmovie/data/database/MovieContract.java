@@ -15,7 +15,7 @@ public class MovieContract {
         // table name
         public static final String TABLE_MOVIES = "movie";
         // columns
-        public static final String MOVIE_ID = "movie_id";
+        public static final String COLUMN_MOVIE_ID = "movie_id";
         public static final String COLUMN_MOVIE_TITLE = "movie_title";
 
         // create content uri
