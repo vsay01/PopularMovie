@@ -126,18 +126,11 @@ public class MovieContentProvider extends ContentProvider {
             case MOVIES:
                 numDeleted = db.delete(
                         MovieContract.MovieEntry.TABLE_MOVIES, selection, selectionArgs);
-                // reset _ID
-                db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" +
-                        MovieContract.MovieEntry.TABLE_MOVIES + "'");
                 break;
             case MOVIE_WITH_ID:
                 numDeleted = db.delete(MovieContract.MovieEntry.TABLE_MOVIES,
                         MovieContract.MovieEntry._ID + " = ?",
                         new String[]{String.valueOf(ContentUris.parseId(uri))});
-                // reset _ID
-                db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" +
-                        MovieContract.MovieEntry.TABLE_MOVIES + "'");
-
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

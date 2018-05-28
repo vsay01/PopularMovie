@@ -93,6 +93,13 @@ public class MovieDetailFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_movie_detail, menu);
+        if (!mViewModel.isMovieAlreadyFavourite(mItem.id)) {
+            menu.getItem(0).setIcon(ContextCompat.getDrawable(getActivity(), R.drawable.ic_favorite_border_default_24dp));
+        } else {
+            menu.getItem(0).setIcon(ContextCompat.getDrawable(getActivity(), R.drawable.ic_favorite_selected_24dp));
+        }
+        mViewModel = ViewModelProviders.of(this).get(MovieDetailViewModel.class);
+        mViewModel.getFavouriteDrawableId().observe(this, integer -> menu.getItem(0).setIcon(ContextCompat.getDrawable(getActivity(), integer)));
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -102,7 +109,11 @@ public class MovieDetailFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.favourite:
                 if (mItem != null) {
-                    mViewModel.addMovieFavourite(mItem.id, mItem.title);
+                    if (!mViewModel.isMovieAlreadyFavourite(mItem.id)) {
+                        mViewModel.addMovieFavourite(mItem.id, mItem.title);
+                    } else {
+                        mViewModel.removeMovieFavourite(mItem.id);
+                    }
                 } else {
                     Toast.makeText(getActivity(), "There's something wrong right now, please try again later", Toast.LENGTH_LONG).show();
                 }
