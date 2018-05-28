@@ -15,8 +15,17 @@ public class MovieTrailerHandler {
     }
 
     public void onMovieTrailerClicked(MovieTrailerResult movieTrailerResult) {
-        if (mContext != null) {
+        if (mContext != null && movieTrailerResult != null) {
             watchYoutubeVideo(mContext, movieTrailerResult.key);
+        }
+    }
+
+    public void onMovieTrailerShareClicked(MovieTrailerResult movieTrailerResult) {
+        if (mContext != null && movieTrailerResult != null) {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "http://www.youtube.com/watch?v=" + movieTrailerResult.key);
+            mContext.startActivity(Intent.createChooser(shareIntent, "Share Video Trailer"));
         }
     }
 

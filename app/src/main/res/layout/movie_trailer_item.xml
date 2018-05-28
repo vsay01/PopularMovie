@@ -62,7 +62,7 @@
             app:layout_constraintTop_toBottomOf="@+id/id_tv_author_name"
             tools:text="trailer type" />
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/iv_play"
             android:layout_width="58dp"
             android:layout_height="59dp"
@@ -75,6 +75,17 @@
             app:layout_constraintStart_toStartOf="@+id/id_image"
             app:layout_constraintTop_toTopOf="@+id/id_image"
             app:srcCompat="@drawable/ic_play_button" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:onClick="@{(id_image) -> movieTrailerHandler.onMovieTrailerShareClicked(movieTrailer)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_share_black_24dp" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>
