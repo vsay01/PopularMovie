@@ -22,7 +22,11 @@ public class MovieDBHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_MOVIE_TABLE = "CREATE TABLE " +
                 MovieContract.MovieEntry.TABLE_MOVIES + "("
                 + MovieContract.MovieEntry.COLUMN_MOVIE_ID + " LONG PRIMARY KEY, "
-                + MovieContract.MovieEntry.COLUMN_MOVIE_TITLE + " TEXT NOT NULL);";
+                + MovieContract.MovieEntry.COLUMN_MOVIE_TITLE + " TEXT NOT NULL, "
+                + MovieContract.MovieEntry.COLUMN_MOVIE_POSTER + " TEXT NOT NULL, "
+                + MovieContract.MovieEntry.COLUMN_MOVIE_RATING + " TEXT NOT NULL, "
+                + MovieContract.MovieEntry.COLUMN_MOVIE_RELEASE_DATE + " TEXT NOT NULL, "
+                + MovieContract.MovieEntry.COLUMN_MOVIE_SYNOPSIS + " TEXT NOT NULL);";
 
         sqLiteDatabase.execSQL(SQL_CREATE_MOVIE_TABLE);
     }

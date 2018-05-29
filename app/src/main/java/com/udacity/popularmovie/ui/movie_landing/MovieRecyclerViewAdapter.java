@@ -21,6 +21,7 @@ import com.udacity.popularmovie.R;
 import com.udacity.popularmovie.base.GlideApp;
 import com.udacity.popularmovie.data.models.MovieResult;
 import com.udacity.popularmovie.data.network.Config;
+import com.udacity.popularmovie.util.ImageUtils;
 
 import java.util.List;
 
@@ -69,6 +70,10 @@ public class MovieRecyclerViewAdapter
                     public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
                         mParentActivity.startPostponedEnterTransition();
                         if (resource != null) {
+                            String saveImagePath = ImageUtils.saveImage(resource, mMovieList.get(position).id);
+                            if(saveImagePath != null){
+                                //save image path and movie id to sqlite
+                            }
                             Palette p = Palette.from(resource).generate();
                             // Use generated instance
                             holder.mColorPalette = p.getMutedColor(ContextCompat.getColor(mParentActivity, R.color.movieDetailTitleBg));

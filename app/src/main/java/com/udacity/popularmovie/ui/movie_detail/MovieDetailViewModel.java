@@ -6,7 +6,6 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
@@ -14,7 +13,9 @@ import android.widget.Toast;
 import com.udacity.popularmovie.R;
 import com.udacity.popularmovie.data.MovieRepositoryImp;
 import com.udacity.popularmovie.data.database.MovieContract;
+import com.udacity.popularmovie.data.models.MovieResult;
 import com.udacity.popularmovie.data.network.ApiResponse;
+import com.udacity.popularmovie.data.network.Config;
 
 public class MovieDetailViewModel extends AndroidViewModel {
     private MediatorLiveData<ApiResponse> mApiResponse;
@@ -72,10 +73,14 @@ public class MovieDetailViewModel extends AndroidViewModel {
         }
     }
 
-    public void addMovieFavourite(long movieId, String movieTitle) {
+    public void addMovieFavourite(MovieResult movieResult) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, movieId);
-        contentValues.put(MovieContract.MovieEntry.COLUMN_MOVIE_TITLE, DatabaseUtils.sqlEscapeString(movieTitle));
+        contentValues.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, movieResult.id);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_MOVIE_TITLE, movieResult.title);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_MOVIE_POSTER, Config.BASE_IMAGE_URL + movieResult.posterPath);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_MOVIE_TITLE, String.valueOf(movieResult.voteAverage));
+        contentValues.put(MovieContract.MovieEntry.COLUMN_MOVIE_TITLE, movieResult.releaseDate);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_MOVIE_TITLE, movieResult.overview);
         Uri uri = getApplication().getContentResolver().insert(MovieContract.MovieEntry.CONTENT_URI, contentValues);
         if (uri != null) {
             mFavouriteDrawableId.postValue(R.drawable.ic_favorite_selected_24dp);

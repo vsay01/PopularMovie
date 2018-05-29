@@ -110,7 +110,7 @@ public class MovieDetailFragment extends Fragment {
             case R.id.favourite:
                 if (mItem != null) {
                     if (!mViewModel.isMovieAlreadyFavourite(mItem.id)) {
-                        mViewModel.addMovieFavourite(mItem.id, mItem.title);
+                        mViewModel.addMovieFavourite(mItem);
                     } else {
                         mViewModel.removeMovieFavourite(mItem.id);
                     }
