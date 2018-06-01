@@ -1,6 +1,7 @@
 package com.udacity.popularmovie.ui.movie_landing;
 
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -70,10 +71,22 @@ public class MovieRecyclerViewAdapter
                     public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
                         mParentActivity.startPostponedEnterTransition();
                         if (resource != null) {
-                            String saveImagePath = ImageUtils.saveImage(resource, mMovieList.get(position).id);
-                            if(saveImagePath != null){
-                                //save image path and movie id to sqlite
-                            }
+                            new AsyncTask<MovieResult, Void, String>() {
+                                @Override
+                                protected String doInBackground(MovieResult... movieResults) {
+                                    return ImageUtils.saveImage(mParentActivity, resource, mMovieList.get(position).id);
+                                }
+
+                                @Override
+                                protected void onPostExecute(String saveImagePath) {
+                                    super.onPostExecute(saveImagePath);
+                                    if (saveImagePath != null) {
+                                        //save image path and movie id to sqlite
+                                        mMovieList.get(position).savedImagePath = saveImagePath;
+                                        mMovieClickListener.onMoviePosterSaved(mMovieList.get(position));
+                                    }
+                                }
+                            };
                             Palette p = Palette.from(resource).generate();
                             // Use generated instance
                             holder.mColorPalette = p.getMutedColor(ContextCompat.getColor(mParentActivity, R.color.movieDetailTitleBg));

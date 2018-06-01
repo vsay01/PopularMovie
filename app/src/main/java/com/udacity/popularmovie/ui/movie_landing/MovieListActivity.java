@@ -10,6 +10,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -132,30 +133,40 @@ public class MovieListActivity extends AppCompatActivity {
     private void setupRecyclerView(@NonNull RecyclerView recyclerView, @NonNull List<MovieResult> movieResults) {
         int numberOfColumns = 2;
         recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
-        recyclerView.setAdapter(new MovieRecyclerViewAdapter(this, movieResults, (movieResult, colorPalette, moviePoster) -> {
-            if (mTwoPane) {
-                Bundle arguments = new Bundle();
-                arguments.putParcelable(MovieDetailFragment.ARG_ITEM_ID, movieResult);
-                arguments.putString(ARG_ITEM_TRANSITION_ID, ViewCompat.getTransitionName(moviePoster));
-                arguments.putInt(ARG_ITEM_COLOR_PALETTE, colorPalette);
+        recyclerView.setAdapter(new MovieRecyclerViewAdapter(this, movieResults, new MovieClickListener() {
+            @Override
+            public void onMovieClicked(MovieResult movieResult, int colorPalette, AppCompatImageView moviePoster) {
+                if (mTwoPane) {
+                    Bundle arguments = new Bundle();
+                    arguments.putParcelable(MovieDetailFragment.ARG_ITEM_ID, movieResult);
+                    arguments.putString(ARG_ITEM_TRANSITION_ID, ViewCompat.getTransitionName(moviePoster));
+                    arguments.putInt(ARG_ITEM_COLOR_PALETTE, colorPalette);
 
-                MovieDetailFragment fragment = new MovieDetailFragment();
-                fragment.setArguments(arguments);
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.movie_detail_container, fragment)
-                        .commit();
-            } else {
-                Intent intent = new Intent(MovieListActivity.this, MovieDetailActivity.class);
-                intent.putExtra(MovieDetailFragment.ARG_ITEM_ID, movieResult);
-                intent.putExtra(ARG_ITEM_TRANSITION_ID, ViewCompat.getTransitionName(moviePoster));
-                intent.putExtra(ARG_ITEM_COLOR_PALETTE, colorPalette);
+                    MovieDetailFragment fragment = new MovieDetailFragment();
+                    fragment.setArguments(arguments);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.movie_detail_container, fragment)
+                            .commit();
+                } else {
+                    Intent intent = new Intent(MovieListActivity.this, MovieDetailActivity.class);
+                    intent.putExtra(MovieDetailFragment.ARG_ITEM_ID, movieResult);
+                    intent.putExtra(ARG_ITEM_TRANSITION_ID, ViewCompat.getTransitionName(moviePoster));
+                    intent.putExtra(ARG_ITEM_COLOR_PALETTE, colorPalette);
 
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        MovieListActivity.this,
-                        moviePoster,
-                        ViewCompat.getTransitionName(moviePoster));
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            MovieListActivity.this,
+                            moviePoster,
+                            ViewCompat.getTransitionName(moviePoster));
 
-                startActivity(intent, options.toBundle());
+                    startActivity(intent, options.toBundle());
+                }
+            }
+
+            @Override
+            public void onMoviePosterSaved(MovieResult movieResult) {
+                if (mViewModel != null) {
+                    mViewModel.saveMovie(movieResult);
+                }
             }
         }));
     }

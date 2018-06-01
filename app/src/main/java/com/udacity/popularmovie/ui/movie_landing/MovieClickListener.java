@@ -6,4 +6,5 @@ import com.udacity.popularmovie.data.models.MovieResult;
 
 public interface MovieClickListener {
     void onMovieClicked(MovieResult movieResult, int colorPalette, AppCompatImageView moviePoster);
+    void onMoviePosterSaved(MovieResult movieResult);
 }

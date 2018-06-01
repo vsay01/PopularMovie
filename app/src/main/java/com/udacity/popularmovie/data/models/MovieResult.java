@@ -38,6 +38,8 @@ public class MovieResult implements Parcelable {
     @Json(name = "release_date")
     public String releaseDate;
 
+    public String savedImagePath;
+
     @Override
     public int describeContents() {
         return 0;
@@ -59,6 +61,7 @@ public class MovieResult implements Parcelable {
         dest.writeValue(this.adult);
         dest.writeString(this.overview);
         dest.writeString(this.releaseDate);
+        dest.writeString(this.savedImagePath);
     }
 
     public MovieResult() {
@@ -80,6 +83,8 @@ public class MovieResult implements Parcelable {
         this.adult = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.overview = in.readString();
         this.releaseDate = in.readString();
+        this.savedImagePath = in.readString();
+
     }
 
     public static final Parcelable.Creator<MovieResult> CREATOR = new Parcelable.Creator<MovieResult>() {
