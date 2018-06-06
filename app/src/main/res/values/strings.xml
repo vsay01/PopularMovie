@@ -4,6 +4,7 @@
     <string name="title_movie_detail">Movie Detail</string>
     <string name="most_popular">most popular</string>
     <string name="highest_rated">highest rated</string>
+    <string name="highest_favorite">Favorite</string>
     <string name="no_network_message">No Internet found. Check your connection or try again.</string>
     <string name="movie_review">%1$s/10</string>
     <string name="retry">Retry</string>
@@ -11,4 +12,7 @@
     <string name="videos">Videos</string>
     <string name="review">Review</string>
     <string name="favourite">Favourite</string>
+    <string name="text_ok">OK</string>
+    <string name="text_remove_favorite">Remove From Favourite</string>
+    <string name="text_add_favorite">Added To Favourite</string>
 </resources>

@@ -8,15 +8,26 @@ import com.udacity.popularmovie.R;
 import com.udacity.popularmovie.base.GlideApp;
 import com.udacity.popularmovie.data.network.Config;
 
+import java.io.File;
+
 public class ImageDataBinding {
     @BindingAdapter({"imageURL"})
     public static void loadImageMovie(AppCompatImageView view, String imageUrl) {
-        GlideApp.with(view.getContext())
-                .load(Config.BASE_IMAGE_URL + imageUrl)
-                .dontAnimate()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.mipmap.ic_launcher)
-                .into(view);
+        if (imageUrl.startsWith("/data/")) {
+            GlideApp.with(view.getContext())
+                    .load(new File(imageUrl))
+                    .dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.mipmap.ic_launcher)
+                    .into(view);
+        } else {
+            GlideApp.with(view.getContext())
+                    .load(Config.BASE_IMAGE_URL + imageUrl)
+                    .dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.mipmap.ic_launcher)
+                    .into(view);
+        }
     }
 
     @BindingAdapter({"imageURLMovieTrailer"})

@@ -21,6 +21,9 @@ public class MovieContract {
         public static final String COLUMN_MOVIE_SYNOPSIS = "movie_synopsis";
         public static final String COLUMN_MOVIE_RATING = "movie_rating";
         public static final String COLUMN_MOVIE_RELEASE_DATE = "movie_release_date";
+        public static final String COLUMN_MOVIE_SORT_TYPE_IS_POPULAR = "movie_sort_type_is_popular";
+        public static final String COLUMN_MOVIE_SORT_TYPE_IS_HIGHEST_RATED = "movie_sort_type_is_highest_rated";
+        public static final String COLUMN_MOVIE_SORT_TYPE_IS_FAVORITE = "movie_sort_type_is_favorite";
 
         // create content uri
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()

@@ -26,6 +26,7 @@ import com.udacity.popularmovie.data.models.MovieTrailerResult;
 import com.udacity.popularmovie.databinding.MovieDetailBinding;
 import com.udacity.popularmovie.ui.movie_landing.MovieListActivity;
 import com.udacity.popularmovie.util.DateUtils;
+import com.udacity.popularmovie.util.NetworkUtils;
 
 import java.util.List;
 
@@ -65,6 +66,12 @@ public class MovieDetailFragment extends Fragment {
 
     @BindView(R.id.tv_release_date)
     AppCompatTextView mTvReleaseDate;
+
+    @BindView(R.id.tv_review)
+    AppCompatTextView mTvReview;
+
+    @BindView(R.id.tv_video)
+    AppCompatTextView mTvVideo;
 
     @BindView(R.id.rv_movie_trailer)
     RecyclerView mRVMovieTrailer;
@@ -110,7 +117,7 @@ public class MovieDetailFragment extends Fragment {
             case R.id.favourite:
                 if (mItem != null) {
                     if (!mViewModel.isMovieAlreadyFavourite(mItem.id)) {
-                        mViewModel.addMovieFavourite(mItem);
+                        mViewModel.addMovieFavourite(mItem.id);
                     } else {
                         mViewModel.removeMovieFavourite(mItem.id);
                     }
@@ -150,16 +157,20 @@ public class MovieDetailFragment extends Fragment {
                     if (apiResponse.getMovieTrailerResponse() != null
                             && apiResponse.getMovieTrailerResponse().movieTrailerResultList != null) {
                         setupRecyclerViewMovieTrailer(mRVMovieTrailer, apiResponse.getMovieTrailerResponse().movieTrailerResultList);
+                        mTvVideo.setVisibility(View.VISIBLE);
                     }
                     if (apiResponse.getMovieReviewResponse() != null
                             && apiResponse.getMovieReviewResponse().results != null) {
                         setupRecyclerViewMovieReview(mRVMovieReview, apiResponse.getMovieReviewResponse().results);
+                        mTvReview.setVisibility(View.VISIBLE);
                     }
                 }
             }
         });
-        mViewModel.loadMovieTrailers(mItem.id);
-        mViewModel.loadMovieReviews(mItem.id);
+        if (NetworkUtils.isOnline(getActivity())) {
+            mViewModel.loadMovieTrailers(mItem.id);
+            mViewModel.loadMovieReviews(mItem.id);
+        }
         return view;
     }
 

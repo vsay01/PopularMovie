@@ -26,6 +26,9 @@ public class MovieDBHelper extends SQLiteOpenHelper {
                 + MovieContract.MovieEntry.COLUMN_MOVIE_POSTER + " TEXT NOT NULL, "
                 + MovieContract.MovieEntry.COLUMN_MOVIE_RATING + " TEXT NOT NULL, "
                 + MovieContract.MovieEntry.COLUMN_MOVIE_RELEASE_DATE + " TEXT NOT NULL, "
+                + MovieContract.MovieEntry.COLUMN_MOVIE_SORT_TYPE_IS_POPULAR + " BOOLEAN NOT NULL CHECK (" + MovieContract.MovieEntry.COLUMN_MOVIE_SORT_TYPE_IS_POPULAR + " IN (0,1)), "
+                + MovieContract.MovieEntry.COLUMN_MOVIE_SORT_TYPE_IS_HIGHEST_RATED + " BOOLEAN NOT NULL CHECK (" + MovieContract.MovieEntry.COLUMN_MOVIE_SORT_TYPE_IS_HIGHEST_RATED + " IN (0,1)), "
+                + MovieContract.MovieEntry.COLUMN_MOVIE_SORT_TYPE_IS_FAVORITE + " BOOLEAN NOT NULL CHECK (" + MovieContract.MovieEntry.COLUMN_MOVIE_SORT_TYPE_IS_FAVORITE + " IN (0,1)), "
                 + MovieContract.MovieEntry.COLUMN_MOVIE_SYNOPSIS + " TEXT NOT NULL);";
 
         sqLiteDatabase.execSQL(SQL_CREATE_MOVIE_TABLE);

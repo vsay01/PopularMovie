@@ -98,36 +98,48 @@ public class MovieListActivity extends AppCompatActivity {
                     mGroupNoInternet.setVisibility(View.VISIBLE);
                     mRecyclerView.setVisibility(View.GONE);
                 } else {
-                    setupRecyclerView(mRecyclerView, apiResponse.getMovieResponses().results);
+                    List<MovieResult> movieResultList;
+                    movieResultList = apiResponse.getMovieResponses().results;
+                    if (mSelectedItem == 0) { //popular
+                        for (MovieResult movieResult : movieResultList
+                                ) {
+                            movieResult.isPopular = true;
+                        }
+                    } else if (mSelectedItem == 1) { //highest rated
+                        for (MovieResult movieResult : movieResultList
+                                ) {
+                            movieResult.isHighestRated = true;
+                        }
+                    }
+                    setupRecyclerView(mRecyclerView, movieResultList);
                     mRecyclerView.setVisibility(View.VISIBLE);
                     mGroupNoInternet.setVisibility(View.GONE);
                 }
             }
         });
 
-        if (NetworkUtils.isOnline(this)) {
-            loadMovie();
-            mGroupNoInternet.setVisibility(View.GONE);
-            mRecyclerView.setVisibility(View.VISIBLE);
-        } else {
-            mGroupNoInternet.setVisibility(View.VISIBLE);
-            mRecyclerView.setVisibility(View.GONE);
-            mBtnRetry.setOnClickListener(view -> loadMovie());
-        }
+        loadMovie(0); //0 = popular movie
     }
 
-    private void loadMovie() {
-        if (TextUtils.isEmpty(Config.API_KEY)) {
-            showAlertDialogIfNoAPIKey();
-        } else {
-            if (mViewModel != null) {
-                if (mSelectedItem == 1) {
+    private void loadMovie(int sortType) {
+        if (NetworkUtils.isOnline(this)) {
+            if (TextUtils.isEmpty(Config.API_KEY)) {
+                showAlertDialogIfNoAPIKey();
+            } else if (mViewModel != null) {
+                if (sortType == 0) {
+                    mViewModel.loadMostPopularMovies();
+                } else if (sortType == 1) {
                     mViewModel.loadHighestRatedMovies();
                 } else {
-                    mViewModel.loadMostPopularMovies();
+                    setupRecyclerView(mRecyclerView, mViewModel.loadMoviesOfflineSQL(sortType));
                 }
+                mSelectedItem = sortType;
             }
+        } else {
+            setupRecyclerView(mRecyclerView, mViewModel.loadMoviesOfflineSQL(sortType));
         }
+        mGroupNoInternet.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView, @NonNull List<MovieResult> movieResults) {
@@ -189,12 +201,13 @@ public class MovieListActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.menu_most_popular:
-                mSelectedItem = 0;
-                mViewModel.loadMostPopularMovies();
+                loadMovie(0);
                 return true;
             case R.id.menu_highest_rated:
-                mSelectedItem = 1;
-                mViewModel.loadHighestRatedMovies();
+                loadMovie(1);
+                return true;
+            case R.id.menu_favorite:
+                loadMovie(2);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -204,7 +217,7 @@ public class MovieListActivity extends AppCompatActivity {
     private void showAlertDialogIfNoAPIKey() {
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setMessage(getString(R.string.no_api_key_error_message));
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.text_ok),
                 (dialog, which) -> dialog.dismiss());
         alertDialog.setCancelable(false);
         alertDialog.show();

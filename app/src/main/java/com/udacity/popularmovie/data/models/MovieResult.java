@@ -39,6 +39,9 @@ public class MovieResult implements Parcelable {
     public String releaseDate;
 
     public String savedImagePath;
+    public boolean isPopular = false;
+    public boolean isHighestRated = false;
+    public boolean isFavorited = false;
 
     @Override
     public int describeContents() {
@@ -65,6 +68,26 @@ public class MovieResult implements Parcelable {
     }
 
     public MovieResult() {
+    }
+
+    public MovieResult(Long id,
+                       String title,
+                       String poster,
+                       Double rating,
+                       String releaseDate,
+                       Boolean isPopular,
+                       Boolean isHighestRated,
+                       Boolean isFavorited,
+                       String overview) {
+        this.id = id;
+        this.title = title;
+        this.posterPath = poster;
+        this.voteAverage = rating;
+        this.releaseDate = releaseDate;
+        this.isPopular = isPopular;
+        this.isHighestRated = isHighestRated;
+        this.isFavorited = isFavorited;
+        this.overview = overview;
     }
 
     protected MovieResult(Parcel in) {

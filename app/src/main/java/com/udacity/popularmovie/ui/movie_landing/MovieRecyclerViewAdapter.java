@@ -24,6 +24,7 @@ import com.udacity.popularmovie.data.models.MovieResult;
 import com.udacity.popularmovie.data.network.Config;
 import com.udacity.popularmovie.util.ImageUtils;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -54,47 +55,75 @@ public class MovieRecyclerViewAdapter
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        GlideApp.with(mParentActivity)
-                .asBitmap()
-                .load(Config.BASE_IMAGE_URL + mMovieList.get(position).posterPath)
-                .dontAnimate()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.mipmap.ic_launcher)
-                .listener(new RequestListener<Bitmap>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                        mParentActivity.startPostponedEnterTransition();
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                        mParentActivity.startPostponedEnterTransition();
-                        if (resource != null) {
-                            new AsyncTask<MovieResult, Void, String>() {
-                                @Override
-                                protected String doInBackground(MovieResult... movieResults) {
-                                    return ImageUtils.saveImage(mParentActivity, resource, mMovieList.get(position).id);
-                                }
-
-                                @Override
-                                protected void onPostExecute(String saveImagePath) {
-                                    super.onPostExecute(saveImagePath);
-                                    if (saveImagePath != null) {
-                                        //save image path and movie id to sqlite
-                                        mMovieList.get(position).savedImagePath = saveImagePath;
-                                        mMovieClickListener.onMoviePosterSaved(mMovieList.get(position));
-                                    }
-                                }
-                            };
-                            Palette p = Palette.from(resource).generate();
-                            // Use generated instance
-                            holder.mColorPalette = p.getMutedColor(ContextCompat.getColor(mParentActivity, R.color.movieDetailTitleBg));
+        if (mMovieList.get(position).posterPath.startsWith("/data/")) {
+            GlideApp.with(mParentActivity)
+                    .asBitmap()
+                    .load(new File(mMovieList.get(position).posterPath))
+                    .dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.mipmap.ic_launcher)
+                    .listener(new RequestListener<Bitmap>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                            mParentActivity.startPostponedEnterTransition();
+                            return false;
                         }
-                        return false;
-                    }
-                })
-                .into(holder.mImageView);
+
+                        @Override
+                        public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                            mParentActivity.startPostponedEnterTransition();
+                            if (resource != null) {
+                                Palette p = Palette.from(resource).generate();
+                                // Use generated instance
+                                holder.mColorPalette = p.getMutedColor(ContextCompat.getColor(mParentActivity, R.color.movieDetailTitleBg));
+                            }
+                            return false;
+                        }
+                    })
+                    .into(holder.mImageView);
+        } else {
+            GlideApp.with(mParentActivity)
+                    .asBitmap()
+                    .load(Config.BASE_IMAGE_URL + mMovieList.get(position).posterPath)
+                    .dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.mipmap.ic_launcher)
+                    .listener(new RequestListener<Bitmap>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                            mParentActivity.startPostponedEnterTransition();
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                            mParentActivity.startPostponedEnterTransition();
+                            if (resource != null) {
+                                new AsyncTask<Void, Void, String>() {
+                                    @Override
+                                    protected String doInBackground(Void... voids) {
+                                        return ImageUtils.saveImage(mParentActivity, resource, mMovieList.get(position).id);
+                                    }
+
+                                    @Override
+                                    protected void onPostExecute(String saveImagePath) {
+                                        super.onPostExecute(saveImagePath);
+                                        if (saveImagePath != null) {
+                                            //save image path and movie id to sqlite
+                                            mMovieList.get(position).savedImagePath = saveImagePath;
+                                            mMovieClickListener.onMoviePosterSaved(mMovieList.get(position));
+                                        }
+                                    }
+                                }.execute();
+                                Palette p = Palette.from(resource).generate();
+                                // Use generated instance
+                                holder.mColorPalette = p.getMutedColor(ContextCompat.getColor(mParentActivity, R.color.movieDetailTitleBg));
+                            }
+                            return false;
+                        }
+                    })
+                    .into(holder.mImageView);
+        }
 
         ViewCompat.setTransitionName(holder.mImageView, mMovieList.get(position).title);
 

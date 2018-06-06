@@ -101,7 +101,8 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/videos"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_plot_synopsis" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_plot_synopsis"
+                android:visibility="gone"/>
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tv_plot_synopsis"
@@ -118,7 +119,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_movie_poster"
                 app:layout_constraintVertical_bias="0.0"
-                tools:text="Plot Synopsis" />
+                tools:text="Plot Synopsis"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_movie_review"
@@ -141,7 +142,8 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/review"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rv_movie_trailer" />
+                app:layout_constraintTop_toBottomOf="@+id/rv_movie_trailer"
+                android:visibility="gone"/>
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
 </layout>

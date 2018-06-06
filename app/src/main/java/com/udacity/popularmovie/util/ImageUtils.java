@@ -60,16 +60,6 @@ public class ImageUtils {
                 e.printStackTrace();
             }
         }
-        return directory.getAbsolutePath();
+        return mypath.getAbsolutePath();
     }
-
-    /*public static void galleryAddPic(Context context, String imagePath) {
-        if (context != null) {
-            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-            File f = new File(imagePath);
-            Uri contentUri = Uri.fromFile(f);
-            mediaScanIntent.setData(contentUri);
-            context.sendBroadcast(mediaScanIntent);
-        }
-    }*/
 }

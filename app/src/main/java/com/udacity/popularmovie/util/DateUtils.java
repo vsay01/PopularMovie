@@ -24,6 +24,5 @@ public class DateUtils {
         }
 
         return outputDate;
-
     }
 }
