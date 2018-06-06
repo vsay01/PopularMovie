@@ -11,6 +11,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -152,7 +153,7 @@ public class MovieDetailFragment extends Fragment {
         mViewModel.getApiResponse().observe(this, apiResponse -> {
             if (apiResponse != null) {
                 if (apiResponse.getError() != null) {
-                    // TODO: 5/16/18 showing error
+                    Log.e("MovieDetailFragment", apiResponse.getError().getMessage());
                 } else {
                     if (apiResponse.getMovieTrailerResponse() != null
                             && apiResponse.getMovieTrailerResponse().movieTrailerResultList != null) {
